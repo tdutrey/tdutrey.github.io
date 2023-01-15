@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/css.css">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <div class="header">
+      <h2>Upload Images</h2>
+      <div class="server-message"></div>
+    </div>
+
+    <div class="input-div">
+      <p><b>Drag & drop photos here</b> or <span class="browse">Browse</span></p>
+      <input type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" />
+    </div>
+
+    <form id="queued-form">
+      <div class="header">
+        <h3>Queued in Frontend</h3>
+        <button type="submit">Upload</button>
+      </div>
+      <div class="queued-div"></div>
+    </form>
+
+    <form id="ann-queued-form">
+      <div class="header">
+        <h3>Annotated and queued in Frontend</h3>
+        <button type="submit">Upload</button>
+      </div>
+      <div class="ann-queued-div"></div>
+    </form>
+
+  </main>
+
+  <script>
+
+    // 1
+    let queuedImagesArray = [],
+      queuedForm = document.querySelector("#queued-form"),
+      queuedDiv = document.querySelector('.queued-div'),
+      inputDiv = document.querySelector('.input-div'),
+      input = document.querySelector('.input-div input'),
+      deleteImages = [];
+
+    let annQueuedImagesArray = [],
+      annQueuedForm = document.querySelector("#ann-queued-form"),
+      annQueuedDiv = document.querySelector('.ann-queued-div'),
+      inputDiv = document.querySelector('.input-div'),
+      input = document.querySelector('.input-div input'),
+      deleteImages = [];
+
+    // SAVED IN SERVER - We'll complete in part 2
+
+    // QUEUED IN FRONTEND
+    function displayQueuedImages() {
+      let images = "";
+      queuedImagesArray.forEach((image, index) => {
+        images += `<div class="image">
+                    <img src="${URL.createObjectURL(image)}" alt="image">
+                    <span onclick="deleteQueuedImage(${index})">&times;</span>
+                  </div>`;
+      })
+      annDiv.innerHTML = images;
+    }
+
+    // QUEUED IN FRONTEND
+    function displayAnnQueuedImages() {
+      let images = "";
+      annQueuedImagesArray.forEach((image, index) => {
+        images += `<div class="image">
+                    <img src="${URL.createObjectURL(image)}" alt="image">
+                    <span onclick="deleteQueuedImage(${index})">&times;</span>
+                  </div>`;
+      })
+      annQueuedDiv.innerHTML = images;
+    }
+
+    function deleteQueuedImage(index) {
+      queuedImagesArray.splice(index, 1);
+      displayQueuedImages();
+    }
+
+    function deleteAnnQueuedImage(index) {
+      annQueuedImagesArray.splice(index, 1);
+      displayAnnQueuedImages();
+    }
+
+    input.addEventListener("change", () => {
+      const files = input.files;
+      for (let i = 0; i < files.length; i++) {
+        queuedImagesArray.push(files[i])
+      }
+      queuedForm.reset();
+      displayQueuedImages()
+    })
+
+    inputDiv.addEventListener("drop", (e) => {
+       e.preventDefault()
+      const files = e.dataTransfer.files
+      for (let i = 0; i < files.length; i++) {
+        if (!files[i].type.match("image")) continue; // only photos
+
+        if (queuedImagesArray.every(image => image.name !== files[i].name))
+          queuedImagesArray.push(files[i])
+      }
+      displayQueuedImages()
+    })
+
+    queuedForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      alert("Hello! I am an alert box!!");
+    });    
+
+
+  </script>
+
+</body>
+
+</html>
