@@ -77,7 +77,9 @@ button {
 }
 
 .saved-div,
-.queued-div {
+.queued-div,
+.ann-saved-div,
+.ann-queued-div {
   width: 100%;
   min-height: 150px;
   display: flex;
@@ -91,7 +93,9 @@ button {
 }
 
 .saved-div .image,
-.queued-div .image {
+.queued-div .image,
+.ann-saved-div .image,
+.ann-queued-div .image {
   /*height: 150px;*/
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
@@ -100,18 +104,24 @@ button {
 }
 
 .saved-div .image:nth-child(4n),
-.queued-div .image:nth-child(4n) {
+.queued-div .image:nth-child(4n),
+.ann-queued-div .image:nth-child(4n),
+.ann-queued-div .image:nth-child(4n) {
   margin-right: 0;
 }
 
 .saved-div .image img,
-.queued-div .image img {
+.queued-div .image img,
+.ann-saved-div .image img,
+.ann-queued-div .image img {
   height: 100%;
   width: 100%;
 }
 
 .saved-div .image span,
-.queued-div .image span {
+.queued-div .image span,
+.ann-saved-div .image span,
+.ann-queued-div .image span {
   position: absolute;
   top: -4px;
   right: 4px;
@@ -121,11 +131,15 @@ button {
 }
 
 .saved-div .image span:hover,
-.queued-div .image span:hover {
+.queued-div .image span:hover,
+.ann-saved-div .image span:hover,
+.ann-queued-div .image span:hover {
   opacity: 0.8;
 }
 
 .saved-div .span--hidden,
-.queued-div .span--hidden {
+.queued-div .span--hidden,
+.ann-saved-div .span--hidden,
+.ann-queued-div .span--hidden {
   visibility: hidden;
 }
