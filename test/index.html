@@ -11,117 +11,36 @@
 
 <body>
 
-  <main class="app">
+<input type="file" accept="image/jpeg, image/png, image/jpg">
+<output></output>
 
-    <div class="header">
-      <h2>Upload Images</h2>
-      <div class="server-message"></div>
-    </div>
 
-    <div class="input-div">
-      <p><b>Drag & drop photos here</b> or <span class="browse">Browse</span></p>
-      <input type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" />
-    </div>
+<script type="text/javascript">
+  const input = document.querySelector("input")
+  const output = document.querySelector("output")
+  let imagesArray = []
 
-    <form id="queued-form">
-      <div class="header">
-        <h3>Queued in Frontend</h3>
-        <button type="submit">Upload</button>
-      </div>
-      <div class="queued-div"></div>
-    </form>
+  input.addEventListener("change", () => {
+    const file = input.files
+    imagesArray.push(file[0])
+    displayImages()
+  })
 
-    <form id="ann-queued-form">
-      <div class="header">
-        <h3>Annotated and queued in Frontend</h3>
-      </div>
-      <div class="ann-queued-div"></div>
-    </form>
-
-  </main>
-
-  <script>
-
-    // 1
-    let queuedImagesArray = [],
-      queuedForm = document.querySelector("#queued-form"),
-      queuedDiv = document.querySelector('.queued-div'),
-      inputDiv = document.querySelector('.input-div'),
-      input = document.querySelector('.input-div input'),
-      deleteImages = [];
-
-    let annQueuedImagesArray = [],
-      annQueuedForm = document.querySelector("#ann-queued-form"),
-      annQueuedDiv = document.querySelector('.ann-queued-div'),
-      inputDiv = document.querySelector('.input-div'),
-      input = document.querySelector('.input-div input'),
-      deleteImages = [];
-
-    // SAVED IN SERVER - We'll complete in part 2
-
-    // QUEUED IN FRONTEND
-    function displayQueuedImages() {
-      let images = "";
-      queuedImagesArray.forEach((image, index) => {
-        images += `<div class="image">
-                    <img src="${URL.createObjectURL(image)}" alt="image">
-                    <span onclick="deleteQueuedImage(${index})">&times;</span>
-                  </div>`;
-      })
-      annDiv.innerHTML = images;
-    }
-
-    // QUEUED IN FRONTEND
-    function displayAnnQueuedImages() {
-      let images = "";
-      annQueuedImagesArray.forEach((image, index) => {
-        images += `<div class="image">
-                    <img src="${URL.createObjectURL(image)}" alt="image">
-                    <span onclick="deleteQueuedImage(${index})">&times;</span>
-                  </div>`;
-      })
-      annQueuedDiv.innerHTML = images;
-    }
-
-    function deleteQueuedImage(index) {
-      queuedImagesArray.splice(index, 1);
-      displayQueuedImages();
-    }
-
-    function deleteAnnQueuedImage(index) {
-      annQueuedImagesArray.splice(index, 1);
-      displayAnnQueuedImages();
-    }
-
-    input.addEventListener("change", () => {
-      const files = input.files;
-      for (let i = 0; i < files.length; i++) {
-        queuedImagesArray.push(files[i])
-      }
-      queuedForm.reset();
-      displayQueuedImages()
+  function displayImages() {
+    let images = ""
+    imagesArray.forEach((image, index) => {
+      images += `<div class="image">
+                  <img src="${URL.createObjectURL(image)}" alt="image">
+                  <span onclick="deleteImage(${index})">&times;</span>
+                </div>`
     })
+    output.innerHTML = images
+  }
 
-    inputDiv.addEventListener("drop", (e) => {
-       e.preventDefault()
-      const files = e.dataTransfer.files
-      for (let i = 0; i < files.length; i++) {
-        if (!files[i].type.match("image")) continue; // only photos
+  function deleteImage(index) {
+    imagesArray.splice(index, 1)
+    displayImages()
+  }
 
-        if (queuedImagesArray.every(image => image.name !== files[i].name))
-          queuedImagesArray.push(files[i])
-      }
-      displayQueuedImages()
-    })
-
-    queuedForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-      alert("Hello! I am an alert box!!");
-    });    
-
-
-  </script>
-
-</body>
-
+</script>
 </html>
